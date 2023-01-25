@@ -22,7 +22,6 @@ type DBConfig struct {
 }
 
 type Student struct {
-	id         string
 	mnr        string
 	hash       string
 	name       string

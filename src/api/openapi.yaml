@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  title: Exam Notifier
+  description: |-
+    This is a simple Application that allows students of the BA Sachen to automatically get notified if there are any new exam results available on Campus Dual. This API is for information purupose for the Campus Dual Developer as the student project only included a backend solution. Suggested is to add a slider button to the home side of Campus Dual, which activation sends the students Matrikelnumber, name, number of done exams and the hash value of their password via this API to the connected database.
+  version: 1.0.0
+tags:
+  - name: student
+paths:
+  /:
+    post:
+      tags:
+        - student
+      summary: Add a new student to the database
+      description: Add a new student to the database
+      operationId: addStudent
+      requestBody:
+        description: Create a student to the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '405':
+          description: Invalid input
+  /{matrikelnr}:
+    delete:
+      tags:
+        - student
+      summary: Deletes a Student
+      description: delete a Student
+      operationId: deleteStudent
+      parameters:
+        - name: matrikelnr
+          in: path
+          description: Matrikelnr to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid Matrikelnr
+components:
+  schemas:
+    Student:
+      type: object
+      properties:
+        matrikelnr:
+          type: string
+          example: 4003595
+        name:
+          type: string
+          example: "Max Mustermann"
+        hash:
+          type: string
+          example: "23nol7v49cmjc87ßr17bnf1075ftr56z"
+        examcount:
+          type: integer
+          format: int32
+          example: 20
+      xml:
+        name: order
